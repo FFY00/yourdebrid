@@ -5,14 +5,14 @@ project('YourDebrid', 'd',
 inc = include_directories('.')
 
 ydlib_sources = [
-    'yourdebrid/database.d',
+    #'yourdebrid/database.d',
     'yourdebrid/util.d',
-    'yourdebrid/webserver.d',
+    #'yourdebrid/webserver.d',
     'yourdebrid/external/sources/source.d',
     'yourdebrid/external/sources/eztv.d',
     'yourdebrid/external/sources/rarbg.d',
-    'yourdebrid/external/sources/yts.d',
-    'yourdebrid/external/hosts/vidzi.d'
+    #'yourdebrid/external/sources/yts.d',
+    #'yourdebrid/external/hosts/vidzi.d'
     ]
 ydlib = shared_library('yourdebrid',
                         ydlib_sources,
