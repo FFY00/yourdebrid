@@ -8,7 +8,8 @@ import std.datetime;
 
 /**
  * Sleep function
- * @param millisec Delat duration
+ * Params:
+ *      millisec =  Delay duration
  */
 int delay(int millisec)
 {

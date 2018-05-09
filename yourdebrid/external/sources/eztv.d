@@ -22,7 +22,7 @@ class EztvSource : Source {
     }
 
     /***********************************
-    * Search shows in EZTV
+    * Search episode in EZTV
     *
     * Params:
     *      imdb_id =   Series IMDB ID
@@ -80,49 +80,4 @@ class EztvSource : Source {
         return result;
     }
 
-}
-
-/***********************************
- * Search shows in EZTV
- *
- * Params:
- *      imdb_id =   Series IMDB ID
- *      season =    Season number
- *      episode =   Episode number
- *      release =   Release name (ex. HDTV) (optional)
- *      max =   Max results
- *      limit = Per page result limit
- *
- * Returns: magnet link list for given episode
- */
- DList!string searchShowEztv(int imdb_id, int season, int episode,
-    string release = "", byte max = 10, byte limit = 50)
-{
-    DList!string result;
-    byte page = 1;
-    auto ep = format("S%02dE%02d", season, episode);
-    JSONValue j;
-    while (walkLength(result[]) < max) {
-        j = parseJSON(get(
-                format("https://eztv.ag/api/get-torrents?imdb_id=%d&limit=%d&page=%d", imdb_id, limit, page)
-            ));
-
-        if(!("torrents" in j))
-            return result;
-
-        foreach (ref res; j["torrents"].array) {
-            if(canFind(toLower(res["title"].str), toLower(ep))){
-                if(release == "" ||
-                    !canFind(toLower(res["title"].str), toLower(release))
-                ){
-                    result.insertBack(res["magnet_url"].str);
-                } else {
-                    result.insertFront(res["magnet_url"].str);
-                }
-            }
-        }
-        page++;
-    }
-
-    return result;
 }

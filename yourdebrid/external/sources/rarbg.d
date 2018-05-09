@@ -43,7 +43,7 @@ class RarbgSource : Source {
     }
 
     /***********************************
-    * Search shows in RARBG
+    * Search episode in RARBG
     *
     * Params:
     *      imdb_id =   Series IMDB ID
@@ -102,7 +102,7 @@ class RarbgSource : Source {
     }
 
     /***********************************
-    * Search shows in RARBG
+    * Search movie in RARBG
     *
     * Params:
     *      imdb_id =   Series IMDB ID

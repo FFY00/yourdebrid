@@ -21,7 +21,6 @@ void main(string[] args)
     } else if(args.length == 5)
         rel = args[4];
 
-    // Lucifer: 4052886
     auto rarbg = new RarbgSource();
     foreach(link; rarbg.searchEpisode(to!int(args[1]), to!int(args[2]), to!int(args[3]), rel)){
         writeln("RESULT: " ~ link);
@@ -30,7 +29,6 @@ void main(string[] args)
 	writeln("RARBG ==> ", Clock.currTime() - stattime);
     stattime = Clock.currTime();
 
-    // Lucifer: 4052886
     auto eztv = new EztvSource();
     foreach(link; eztv.searchEpisode(to!int(args[1]), to!int(args[2]), to!int(args[3]), rel)){
         writeln("RESULT: " ~ link);

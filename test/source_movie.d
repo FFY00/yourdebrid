@@ -21,7 +21,6 @@ void main(string[] args)
     } else if(args.length == 3)
         rel = args[2];
 
-    // Beautiful Creatures: 1559547
     auto rarbg = new RarbgSource();
     foreach(link; rarbg.searchMovie(to!int(args[1]), rel)){
         writeln("RESULT: " ~ link);
