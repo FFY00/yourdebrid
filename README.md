@@ -6,20 +6,20 @@ YourDebrid is a fully open-source debrid service written in [D](https://dlang.or
 ## Build Instructions
 
 ```
-$ mkdir builld
-$ cd build
-$ meson ..
-$ ninja
+mkdir builld
+cd build
+meson ..
+ninja
 ```
 
 ###### Run tests
 ```
-$ ninja run-tests
+ninja run-tests
 ```
 
 ###### Changing the compiler
 ```
-$ DC='dmd' meson ..
+DC='dmd' meson ..
 ```
 
 
