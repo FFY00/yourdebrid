@@ -112,7 +112,7 @@ class RarbgSource : Source {
     *      max =   Max results
     *      limit = Per page result limit
     *
-    * Returns: magnet link list for given episode
+    * Returns: magnet link list for given movie
     */
     override public DList!string searchMovie(int imdb_id,
         string release = "", byte max = 10, byte limit = 50)
