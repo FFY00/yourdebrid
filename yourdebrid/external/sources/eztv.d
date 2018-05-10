@@ -34,16 +34,17 @@ class EztvSource : Source {
     *
     * Returns: magnet link list for given episode
     */
-    override public DList!string searchEpisode(int imdb_id, int season, int episode,
+    override public string[] searchEpisode(int imdb_id, int season, int episode,
         string release = "", byte max = 10, byte limit = 50)
     {
-        DList!string result;
+        string[] front, back;
+        int nresults;
         byte page = 1;
         auto ep = format("S%02dE%02d", season, episode);
         string url = "";
         JSONValue j;
 
-        while (walkLength(result[]) < max) {
+        while (nresults < max) {
             url = constructUrl(imdb_id, limit, page);
             delay(100);
             try {
@@ -56,28 +57,30 @@ class EztvSource : Source {
                     try
                         j = parseJSON(get(url));
                     catch (HTTPStatusException e)
-                        return result;
+                        return front ~ back;
                 }
             }
 
             if(!("torrents" in j)) /** no more results */
-                return result;
+                return front ~ back;
 
             foreach (ref res; j["torrents"].array) {
                 if(canFind(toLower(res["title"].str), toLower(ep))){ /** episode check. not really needed */
                     if(release == "" ||
                         !canFind(toLower(res["title"].str), toLower(release))
                     ){
-                        result.insertBack(res["magnet_url"].str);
+                        back ~= res["magnet_url"].str;
+                        nresults++;
                     } else {
-                        result.insertFront(res["magnet_url"].str);
+                        front ~= res["magnet_url"].str;
+                        nresults++;
                     }
                 }
             }
             page++;
         }
 
-        return result;
+        return front ~ back;
     }
 
 }

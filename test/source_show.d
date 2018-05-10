@@ -6,7 +6,7 @@
 module test.test;
 
 import std.getopt, core.stdc.stdlib, std.datetime, std.stdio, std.conv;
-import yourdebrid.external.sources.eztv, yourdebrid.external.sources.rarbg;
+import yourdebrid.external.sources.source, yourdebrid.external.sources.eztv, yourdebrid.external.sources.rarbg;
 import test.source_imp;
 
 void main(string[] args)
@@ -21,16 +21,18 @@ void main(string[] args)
     } else if(args.length == 5)
         rel = args[4];
 
-    auto rarbg = new RarbgSource();
-    foreach(link; rarbg.searchEpisode(to!int(args[1]), to!int(args[2]), to!int(args[3]), rel)){
+    Source source;
+
+    source = new RarbgSource();
+    foreach(link; source.searchEpisode(to!int(args[1]), to!int(args[2]), to!int(args[3]), rel)){
         writeln("RESULT: " ~ link);
     }
 
 	writeln("RARBG ==> ", Clock.currTime() - stattime);
     stattime = Clock.currTime();
 
-    auto eztv = new EztvSource();
-    foreach(link; eztv.searchEpisode(to!int(args[1]), to!int(args[2]), to!int(args[3]), rel)){
+    source = new EztvSource();
+    foreach(link; source.searchEpisode(to!int(args[1]), to!int(args[2]), to!int(args[3]), rel)){
         writeln("RESULT: " ~ link);
     }
 

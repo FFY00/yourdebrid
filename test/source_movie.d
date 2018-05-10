@@ -6,7 +6,7 @@
 module test.test;
 
 import std.getopt, core.stdc.stdlib, std.datetime, std.stdio, std.conv;
-import yourdebrid.external.sources.eztv, yourdebrid.external.sources.rarbg;
+import yourdebrid.external.sources.source, yourdebrid.external.sources.eztv, yourdebrid.external.sources.rarbg;
 import test.source_imp;
 
 void main(string[] args)
@@ -21,8 +21,10 @@ void main(string[] args)
     } else if(args.length == 3)
         rel = args[2];
 
-    auto rarbg = new RarbgSource();
-    foreach(link; rarbg.searchMovie(to!int(args[1]), rel)){
+    Source source;    
+
+    source = new RarbgSource();
+    foreach(link; source.searchMovie(to!int(args[1]), rel)){
         writeln("RESULT: " ~ link);
     }
 

@@ -23,10 +23,10 @@ class Source {
     *
     * Returns: magnet link list for given episode
     */
-    public DList!string searchEpisode(int imdb_id, int season, int episode,
+    public string[] searchEpisode(int imdb_id, int season, int episode,
         string release = "", byte max = 10, byte limit = 50)
     {
-        return DList!string();
+        return [];
     }
 
     /***********************************
@@ -40,10 +40,10 @@ class Source {
     *
     * Returns: magnet link list for given movie
     */
-    public DList!string searchMovie(int imdb_id,
+    public string[] searchMovie(int imdb_id,
         string release = "", byte max = 10, byte limit = 50)
     {
-        return DList!string();
+        return [];
     }
 
 }

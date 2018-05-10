@@ -11,6 +11,7 @@ import std.net.curl, std.json, std.algorithm, std.uni, std.format;
 import std.container : DList;
 import std.datetime : SysTime, Clock, dur;
 import std.range.primitives : walkLength;
+import std.stdio;
 
 class RarbgSource : Source {
     private const string url = "https://torrentapi.org/pubapi_v2.php?app_id=yourdebrid&";
@@ -55,16 +56,17 @@ class RarbgSource : Source {
     *
     * Returns: magnet link list for given episode
     */
-    override public DList!string searchEpisode(int imdb_id, int season, int episode,
+    override public string[] searchEpisode(int imdb_id, int season, int episode,
         string release = "", byte max = 10, byte limit = 50)
     {
-        DList!string result;
+        string[] front, back;
+        int nresults;
         byte page = 1;
         auto ep = format("S%02dE%02d", season, episode);
         string url = "";
         JSONValue j;
 
-        while (walkLength(result[]) < max) {
+        while (nresults < max) {
             url = constructUrl(imdb_id, limit, page, ep);
             delay(100);
             try {
@@ -77,28 +79,30 @@ class RarbgSource : Source {
                     try
                         j = parseJSON(get(url));
                     catch (HTTPStatusException e)
-                        return result;
+                        return front ~ back;
                 }
             }
 
             if(!("torrent_results" in j)) /** no more results */
-                return result;
+                return front ~ back;
 
             foreach (ref res; j["torrent_results"].array) {
                 if(canFind(toLower(res["filename"].str), toLower(ep))){ /** episode check. not really needed */
                     if(release == "" ||
                         !canFind(toLower(res["filename"].str), toLower(release))
                     ){
-                        result.insertBack(res["download"].str);
+                        back ~= res["download"].str;
+                        nresults++;
                     } else {
-                        result.insertFront(res["download"].str);
+                        front ~= res["download"].str;
+                        nresults++;
                     }
                 }
             }
             page++;
         }
 
-        return result;
+        return front ~ back;
     }
 
     /***********************************
@@ -114,15 +118,16 @@ class RarbgSource : Source {
     *
     * Returns: magnet link list for given movie
     */
-    override public DList!string searchMovie(int imdb_id,
+    override public string[] searchMovie(int imdb_id,
         string release = "", byte max = 10, byte limit = 50)
     {
-        DList!string result;
+        string[] front, back;
+        int nresults = 0;
         byte page = 1;
         string url = "";
         JSONValue j;
 
-        while (walkLength(result[]) < max) {
+        while (nresults < max) {
             url = constructUrl(imdb_id, limit, page);
             delay(100);
             try {
@@ -135,26 +140,28 @@ class RarbgSource : Source {
                     try
                         j = parseJSON(get(url));
                     catch (HTTPStatusException e)
-                        return result;
+                        return front ~ back;
                 }
             }
 
             if(!("torrent_results" in j)) /** no more results */
-                return result;
+                return front ~ back;
 
             foreach (ref res; j["torrent_results"].array) {
                 if(release == "" ||
                     !canFind(toLower(res["filename"].str), toLower(release))
                 ){
-                    result.insertBack(res["download"].str);
+                    back ~= res["download"].str;
+                    nresults++;
                 } else {
-                    result.insertFront(res["download"].str);
+                    front ~= res["download"].str;
+                    nresults++;
                 }
             }
             page++;
         }
 
-        return result;
+        return front ~ back;
     }
 
 }
