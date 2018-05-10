@@ -13,9 +13,9 @@ import std.datetime;
  */
 int delay(int millisec)
 {
-    auto const start_time = Clock.currTime();
+    auto const end_time = Clock.currTime() + dur!"msecs"(millisec));
 
-    while((start_time + dur!"msecs"(millisec)) != Clock.currTime()){}
+    while((end_time != Clock.currTime()){}
 
     return millisec;
 }
