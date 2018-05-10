@@ -52,14 +52,13 @@ class EztvSource : Source {
     override public string[] searchEpisode(int imdb_id, int season, int episode,
         string release = "", byte max = 10, byte limit = 50)
     {
-        string[] front, back;
-        int nresults;
+        string[] results;
         byte page = 1;
         auto ep = format("S%02dE%02d", season, episode);
         string url = "";
         JSONValue j;
 
-        while (nresults < max) {
+        while (walkLength(results) < max) {
             url = constructUrl(imdb_id, limit, page);
             delay(100);
             try {
@@ -72,30 +71,28 @@ class EztvSource : Source {
                     try
                         j = parseJSON(get(url));
                     catch (HTTPStatusException e)
-                        return front ~ back;
+                        return results;
                 }
             }
 
             if(!("torrents" in j)) /** no more results */
-                return front ~ back;
+                return results;
 
             foreach (ref res; j["torrents"].array) {
                 if(canFind(toLower(res["title"].str), toLower(ep))){ /** episode check. not really needed */
                     if(release == "" ||
                         !canFind(toLower(res["title"].str), toLower(release))
                     ){
-                        back ~= res["magnet_url"].str;
-                        nresults++;
+                        results ~= res["magnet_url"].str;
                     } else {
-                        front ~= res["magnet_url"].str;
-                        nresults++;
+                        results = res["magnet_url"].str ~ results;
                     }
                 }
             }
             page++;
         }
 
-        return front ~ back;
+        return results;
     }
 
 }
