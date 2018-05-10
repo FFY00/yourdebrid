@@ -23,7 +23,7 @@ void main(string[] args)
 
     Source source;
 
-    source = new RarbgSource();
+    source = new RarbgSource(true);
     foreach(link; source.searchEpisode(to!int(args[1]), to!int(args[2]), to!int(args[3]), rel)){
         writeln("RESULT: " ~ link);
     }
@@ -31,7 +31,7 @@ void main(string[] args)
 	writeln("RARBG ==> ", Clock.currTime() - stattime);
     stattime = Clock.currTime();
 
-    source = new EztvSource();
+    source = new EztvSource(true);
     foreach(link; source.searchEpisode(to!int(args[1]), to!int(args[2]), to!int(args[3]), rel)){
         writeln("RESULT: " ~ link);
     }

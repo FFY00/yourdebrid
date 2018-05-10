@@ -15,10 +15,25 @@ import std.range.primitives : walkLength;
 class EztvSource : Source {
     private const string url = "https://eztv.ag/api/get-torrents?";
 
+    private bool test = false;
+
+    this(bool test = false){
+        this.test = test;
+    }
+
     private string constructUrl(int imdb_id, int limit = 10, int page = 50) /** no support form custom search query :( */
     {
         return format("%s&imdb_id=%d&limit=%d&page=%d",
                         this.url, imdb_id, limit, page);
+    }
+
+    private JSONValue getData(string url)
+    {
+        if(test){
+            // Return cached data
+        }
+        
+        return parseJSON(get(url));
     }
 
     /***********************************
@@ -48,7 +63,7 @@ class EztvSource : Source {
             url = constructUrl(imdb_id, limit, page);
             delay(100);
             try {
-                j = parseJSON(get(url));
+                j = getData(url);
             } catch (HTTPStatusException e) {
                 if(e.status == 429){
                     delay(2000); /** delay and try again.

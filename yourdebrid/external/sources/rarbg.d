@@ -11,12 +11,17 @@ import std.net.curl, std.json, std.algorithm, std.uni, std.format;
 import std.container : DList;
 import std.datetime : SysTime, Clock, dur;
 import std.range.primitives : walkLength;
-import std.stdio;
 
 class RarbgSource : Source {
     private const string url = "https://torrentapi.org/pubapi_v2.php?app_id=yourdebrid&";
     private string token = "";
     SysTime tokenlife;
+
+    private bool test = false;
+
+    this(bool test = false){
+        this.test = test;
+    }
 
     private string getRarbgToken()
     {
@@ -41,6 +46,15 @@ class RarbgSource : Source {
             url ~= "&search_string=" ~ text;
         
         return url;
+    }
+
+    private JSONValue getData(string url)
+    {
+        if(test){
+            // Return cached data
+        }
+        
+        return parseJSON(get(url));
     }
 
     /***********************************
@@ -70,7 +84,7 @@ class RarbgSource : Source {
             url = constructUrl(imdb_id, limit, page, ep);
             delay(100);
             try {
-                j = parseJSON(get(url));
+                j = getData(url);
             } catch (HTTPStatusException e) {
                 if(e.status == 429){
                     delay(2000); /** the RARBG API supposedly has a limit of 1req/2s,
@@ -131,7 +145,7 @@ class RarbgSource : Source {
             url = constructUrl(imdb_id, limit, page);
             delay(100);
             try {
-                j = parseJSON(get(url));
+                j = getData(url);
             } catch (HTTPStatusException e) {
                 if(e.status == 429){
                     delay(2000); /** the RARBG API supposedly has a limit of 1req/2s,
