@@ -11,11 +11,39 @@ import std.net.curl, std.json, std.algorithm, std.uni, std.format;
 import std.container : DList;
 import std.datetime : SysTime, Clock, dur;
 import std.range.primitives : walkLength;
+version(unittest)
+{
+    import std.stdio;
+}
 
 class RarbgSource : Source {
     private const string url = "https://torrentapi.org/pubapi_v2.php?app_id=yourdebrid&";
     private string token = "";
     SysTime tokenlife;
+
+    unittest
+    {
+        Source source = new RarbgSource;
+        SysTime stattime;
+
+        writeln("==============================");
+        writeln("Testing RarbgSource");
+        writeln("==============================");
+
+        // Test searchEpisode()
+        stattime = Clock.currTime();
+        foreach(link; source.searchEpisode(4052886, 3, 23, "hdtv")){
+            writeln("RESULT: " ~ link);
+        }
+        writeln("\nRARBG searchEpisode() ==> ", Clock.currTime() - stattime, "\n");
+
+        // Test searchMovie()
+        stattime = Clock.currTime();
+        foreach(link; source.searchMovie(1559547, "hdtv")){
+            writeln("RESULT: " ~ link);
+        }
+	    writeln("\nRARBG searchMovie() ==> ", Clock.currTime() - stattime, "\n");
+    }
 
     private string getRarbgToken()
     {

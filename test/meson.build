@@ -8,14 +8,8 @@ testlib = shared_library('tests',
                             link_with: ydlib,
                             install : false)
 
-# Test source - show
-executable('test-source-show', 'source_show.d',
-    include_directories : inc,
-    link_with: [ydlibtest, testlib]
-)
-
-# Test source - movie
-executable('test-source-movie', 'source_movie.d',
+# Test source
+executable('test-source', 'source.d',
     include_directories : inc,
     link_with: [ydlibtest, testlib]
 )
