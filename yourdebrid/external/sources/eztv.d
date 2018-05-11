@@ -7,9 +7,10 @@ module yourdebrid.external.sources.eztv;
 
 import yourdebrid.external.sources.source;
 import yourdebrid.util;
-import std.net.curl, std.json, std.algorithm, std.string, std.uni;
+import std.net.curl, std.json, std.string, std.uni;
 import std.container : DList;
 import std.range.primitives : walkLength;
+import std.algorithm : canFind;
 version(unittest)
 {
     import std.stdio;
@@ -81,7 +82,7 @@ class EztvSource : Source {
         string url = "";
         JSONValue j;
 
-        while (walkLength(results) < max) {
+        while (results.length < max) {
             url = constructUrl(imdb_id, limit, page);
             delay(100);
             try {
@@ -111,6 +112,9 @@ class EztvSource : Source {
                         results = res["magnet_url"].str ~ results;
                     }
                 }
+
+                if(results.length >= max)
+                    return results;
             }
             page++;
         }

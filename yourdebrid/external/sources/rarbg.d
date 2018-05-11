@@ -7,10 +7,10 @@ module yourdebrid.external.sources.rarbg;
 
 import yourdebrid.external.sources.source;
 import yourdebrid.util;
-import std.net.curl, std.json, std.algorithm, std.uni, std.format;
+import std.net.curl, std.json, std.uni, std.format;
 import std.container : DList;
+import std.algorithm : canFind;
 import std.datetime : SysTime, Clock, dur;
-import std.range.primitives : walkLength;
 version(unittest)
 {
     import std.stdio;
@@ -102,7 +102,7 @@ class RarbgSource : Source {
         string url = "";
         JSONValue j;
 
-        while (walkLength(results) < max) {
+        while (results.length < max) {
             url = constructUrl(imdb_id, limit, page, ep);
             delay(100);
             try {
@@ -132,6 +132,9 @@ class RarbgSource : Source {
                         results = res["download"].str ~ results;
                     }
                 }
+
+                if(results.length >= max)
+                    return results;
             }
             page++;
         }
@@ -160,7 +163,7 @@ class RarbgSource : Source {
         string url = "";
         JSONValue j;
 
-        while (walkLength(results) < max) {
+        while (results.length < max) {
             url = constructUrl(imdb_id, limit, page);
             delay(100);
             try {
@@ -188,6 +191,9 @@ class RarbgSource : Source {
                 } else {
                     results = res["download"].str ~ results;
                 }
+
+                if(results.length >= max)
+                    return results;
             }
             page++;
         }

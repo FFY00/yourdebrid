@@ -14,13 +14,13 @@ ydlib_sources = [
     #'yourdebrid/external/sources/yts.d',
     #'yourdebrid/external/hosts/vidzi.d'
     ]
-ydlib = shared_library('yourdebrid',
+ydlib = static_library('yourdebrid',
                         ydlib_sources,
                         include_directories: inc,
                         install : true)
 
 # ydlist with unittest enabled
-ydlibtest = shared_library('yourdebridtest',
+ydlibtest = static_library('yourdebridtest',
                             ydlib_sources,
                             include_directories: inc,
                             d_args : '-unittest',

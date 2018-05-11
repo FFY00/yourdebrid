@@ -2,7 +2,7 @@
 test_sources = [
     'source_imp.d'
     ]
-testlib = shared_library('tests',
+testlib = static_library('tests',
                             test_sources,
                             include_directories : inc,
                             link_with: ydlib,
