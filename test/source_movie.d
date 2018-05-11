@@ -23,7 +23,7 @@ void main(string[] args)
 
     Source source;    
 
-    source = new RarbgSource(true);
+    source = new RarbgSource();
     foreach(link; source.searchMovie(to!int(args[1]), rel)){
         writeln("RESULT: " ~ link);
     }

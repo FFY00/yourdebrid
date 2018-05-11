@@ -19,6 +19,13 @@ ydlib = shared_library('yourdebrid',
                         include_directories: inc,
                         install : true)
 
+# ydlist with unittest enabled
+ydlibtest = shared_library('yourdebridtest',
+                            ydlib_sources,
+                            include_directories: inc,
+                            d_args : '-unittest',
+                            install : false)
+
 #executable('yourdebridd', 'deamon.d')
 #executable('yourdebridctl', 'ctl.d')
 

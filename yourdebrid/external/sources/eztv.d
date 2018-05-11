@@ -11,15 +11,8 @@ import std.net.curl, std.json, std.algorithm, std.string, std.uni;
 import std.container : DList;
 import std.range.primitives : walkLength;
 
-
 class EztvSource : Source {
     private const string url = "https://eztv.ag/api/get-torrents?";
-
-    private bool test = false;
-
-    this(bool test = false){
-        this.test = test;
-    }
 
     private string constructUrl(int imdb_id, int limit = 10, int page = 50) /** no support form custom search query :( */
     {
@@ -29,7 +22,8 @@ class EztvSource : Source {
 
     private JSONValue getData(string url)
     {
-        if(test){
+        version(unittest)
+        {
             // Return cached data
         }
         

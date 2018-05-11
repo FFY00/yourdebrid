@@ -17,12 +17,6 @@ class RarbgSource : Source {
     private string token = "";
     SysTime tokenlife;
 
-    private bool test = false;
-
-    this(bool test = false){
-        this.test = test;
-    }
-
     private string getRarbgToken()
     {
         if(Clock.currTime() > tokenlife){
@@ -50,7 +44,8 @@ class RarbgSource : Source {
 
     private JSONValue getData(string url)
     {
-        if(test){
+        version(unittest)
+        {
             // Return cached data
         }
         
