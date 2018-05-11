@@ -42,7 +42,7 @@ class RarbgSource : Source {
         foreach(link; source.searchMovie(1559547, "hdtv")){
             writeln("RESULT: " ~ link);
         }
-	    writeln("\nRARBG searchMovie() ==> ", Clock.currTime() - stattime, "\n");
+        writeln("\nRARBG searchMovie() ==> ", Clock.currTime() - stattime, "\n");
     }
 
     private string getRarbgToken()

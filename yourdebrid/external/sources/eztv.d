@@ -33,14 +33,14 @@ class EztvSource : Source {
         foreach(link; source.searchEpisode(4052886, 3, 23, "hdtv")){
             writeln("RESULT: ", link);
         }
-	    writeln("EZTV searchEpisode() ==> ", Clock.currTime() - stattime);
+        writeln("EZTV searchEpisode() ==> ", Clock.currTime() - stattime);
 
         // Test searchMovie()
         stattime = Clock.currTime();
         foreach(link; source.searchMovie(1559547, "hdtv")){
             writeln("RESULT: ", link);
         }
-	    writeln("\nEZTV searchMovie() ==> ", Clock.currTime() - stattime, "\n");
+        writeln("\nEZTV searchMovie() ==> ", Clock.currTime() - stattime, "\n");
     }
 
     private string constructUrl(int imdb_id, int limit = 10, int page = 50) /** no support form custom search query :( */
