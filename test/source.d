@@ -6,7 +6,7 @@
 module test.source;
 
 import yourdebrid.external.sources.source, yourdebrid.external.sources.eztv, yourdebrid.external.sources.rarbg;
-import test.source_imp;
+import source_imp;
 
 void main()
 {

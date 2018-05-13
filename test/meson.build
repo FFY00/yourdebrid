@@ -8,8 +8,14 @@ testlib = static_library('tests',
                             link_with: ydlib,
                             install : false)
 
-# Test source
+# Test sources
 executable('test-source', 'source.d',
+    include_directories : inc,
+    link_with: [ydlibtest, testlib]
+)
+
+# Test hosts
+executable('test-host', 'host.d',
     include_directories : inc,
     link_with: [ydlibtest, testlib]
 )

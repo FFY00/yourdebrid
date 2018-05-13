@@ -6,22 +6,22 @@
 module yourdebrid.external.sources.eztv;
 
 import yourdebrid.external.sources.source;
-import yourdebrid.util;
+import yourdebrid.util.util;
 import std.net.curl, std.json, std.string, std.uni;
 import std.container : DList;
-import std.range.primitives : walkLength;
 import std.algorithm : canFind;
-version(unittest)
-{
-    import std.stdio;
-    import std.datetime : SysTime, Clock, dur;
-}
 
 class EztvSource : Source {
-    private const string url = "https://eztv.ag/api/get-torrents?";
+    
+    this(){
+        url = "https://eztv.ag/api/get-torrents?";
+    }
 
     unittest
     {
+        import std.stdio;
+        import std.datetime : SysTime, Clock, dur;
+
         Source source = new EztvSource;
         SysTime stattime;
 

@@ -8,7 +8,7 @@ module yourdebrid.external.sources.source;
 import std.container : DList;
 
 class Source {
-    const protected string url;
+    protected string url;
 
     /***********************************
     * Search episode

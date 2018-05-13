@@ -1,0 +1,6 @@
+name "yourdebrid"
+description "YourDebrid is a fully open-source debrid service written in D-lang"
+authors "Filipe Laíns"
+copyright "Copyright © 2018, Filipe Laíns"
+license "AGPLv3"
+dependency "curl"

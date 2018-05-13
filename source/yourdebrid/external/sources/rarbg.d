@@ -6,23 +6,24 @@
 module yourdebrid.external.sources.rarbg;
 
 import yourdebrid.external.sources.source;
-import yourdebrid.util;
+import yourdebrid.util.util;
 import std.net.curl, std.json, std.uni, std.format;
 import std.container : DList;
 import std.algorithm : canFind;
 import std.datetime : SysTime, Clock, dur;
-version(unittest)
-{
-    import std.stdio;
-}
 
 class RarbgSource : Source {
-    private const string url = "https://torrentapi.org/pubapi_v2.php?app_id=yourdebrid&";
     private string token = "";
     SysTime tokenlife;
 
+    this(){
+        url = "https://torrentapi.org/pubapi_v2.php?app_id=yourdebrid&";
+    }
+
     unittest
     {
+        import std.stdio;
+        
         Source source = new RarbgSource;
         SysTime stattime;
 
