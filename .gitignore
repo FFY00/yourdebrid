@@ -1,5 +1,4 @@
 build/
 builddir/
-test_files/
 libyourdebrid.a
 dub.selections.json
