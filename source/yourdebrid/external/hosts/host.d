@@ -3,7 +3,7 @@
  * License: AGPLv3 https://www.gnu.org/licenses/agpl-3.0.txt
  */
  
- module source.yourdebrid.external.hosts.host;
+ module yourdebrid.external.hosts.host;
 
  class Host {
     protected string base_url = "";

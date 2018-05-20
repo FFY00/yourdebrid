@@ -1,0 +1,24 @@
+{
+    "name": "yourdebrid",
+    "authors": [
+        "Filipe Laíns"
+    ],
+    "description": "YourDebrid is a fully open-source debrid service written in D-lang",
+    "copyright": "Copyright © 2018, Filipe Laíns",
+    "license": "AGPLv3",
+    "sourceFiles": [
+        "source/yourdebrid/util/config.d",
+        "source/yourdebrid/util/http.d",
+        "source/yourdebrid/util/util.d",
+        "source/yourdebrid/external/sources/source.d",
+        "source/yourdebrid/external/sources/eztv.d",
+        "source/yourdebrid/external/sources/rarbg.d",
+        "source/yourdebrid/external/hosts/host.d",
+        "source/yourdebrid/external/hosts/openload.d",
+        "source/yourdebrid/external/hosts/streamango.d",
+        "source/yourdebrid/external/hosts/vidlox.d"
+    ],
+    "libs": [
+        "curl"
+    ]
+}

@@ -3,16 +3,18 @@
  * License: AGPLv3 https://www.gnu.org/licenses/agpl-3.0.txt
  */
 
-module source.yourdebrid.external.hosts.http;
+module yourdebrid.util.http;
 
 import std.format, std.net.curl, std.json, std.path, std.file;
 import std.range : repeat;
 import std.stdio;
 
+/// HTTP request helper class
 class Http {
     private void[] data;
     private HTTP conn;
 
+    /// Constructs the base request
     this()
     {
         conn = HTTP();
@@ -25,7 +27,7 @@ class Http {
             version(Posix)
             {
                 ubyte old_prog;
-                conn.onProgress = (size_t dltotal, size_t dlnow,
+                conn.onProgress = (size_t _, size_t __,
                     size_t ultotal, size_t ulnow)
                 {
                     ubyte prog;
@@ -49,6 +51,12 @@ class Http {
         }
     }
 
+    /***********************************
+    * Add file to request
+    *
+    * Params:
+    *      file =   Path of the file to add
+    */
     public void addFile(string file)
     {
         if(!file.isFile())
@@ -58,7 +66,8 @@ class Http {
 
         string filename = baseName(file);
         data ~= cast(void[]) "--xxBOUNDARYxx\r\n";
-        data ~= cast(void[]) "Content-Disposition: form-data; name=\"" ~ filename ~ "\"; filename=\"" ~ filename ~ "\"\r\n";
+        data ~= cast(void[]) "Content-Disposition: form-data; name=\""~ filename ~
+                                    "\"; filename=\"" ~ filename ~ "\"\r\n";
         data ~= cast(void[]) "\r\n";
         data ~= read(file);
         data ~= cast(void[]) "\r\n";
@@ -75,6 +84,11 @@ class Http {
         conn.method = m;
     }
 
+    /***********************************
+    * Sends the request
+    *
+    * Returns: Returned data from the server (usually JSON)
+    */
     public string send()
     {
         string res = "";

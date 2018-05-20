@@ -9,16 +9,21 @@ testlib = static_library('tests',
                             install : false)
 
 # Test sources
-executable('test-source', 'source.d',
-    include_directories : inc,
-    link_with: [ydlibtest, testlib]
+test_source_exe = executable('test-source', 'source.d',
+                                include_directories : inc,
+                                dependencies: xmlrpccd_dep,
+                                link_with: [ydlibtest, testlib]
 )
 
 # Test hosts
-executable('test-host', 'host.d',
-    include_directories : inc,
-    link_with: [ydlibtest, testlib]
+test_host_exe = executable('test-host', 'host.d',
+                            include_directories : inc,
+                            dependencies: xmlrpccd_dep,
+                            link_with: [ydlibtest, testlib]
 )
+
+test('source test', test_source_exe)
+test('host_test', test_host_exe, timeout:360) # 2min for each host seems fine
 
 run_target('run-tests',
   command : '../scripts/run-tests.sh')

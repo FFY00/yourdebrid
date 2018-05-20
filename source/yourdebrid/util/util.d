@@ -3,7 +3,7 @@
  * License: AGPLv3 https://www.gnu.org/licenses/agpl-3.0.txt
  */
 
-module source.yourdebrid.util.util;
+module yourdebrid.util.util;
 import std.datetime;
 
 /**

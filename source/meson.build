@@ -1,8 +1,7 @@
-#requests_dep = dependency('requests', fallback: ['requests', 'requests_dep'])
-
 inc = include_directories('.')
 
 ydlib_sources = [
+    #'libtorrentc/libtorrent.d',
     #'yourdebrid/database.d',
     #'yourdebrid/webserver.d',
     'yourdebrid/util/config.d',
@@ -22,12 +21,14 @@ ydlib_sources = [
 ydlib = static_library('yourdebrid',
                         ydlib_sources,
                         include_directories: inc,
+                        dependencies: xmlrpccd_dep,
                         install : true)
 
-# ydlist with unittest enabled
+# ydlib with unittest enabled
 ydlibtest = static_library('yourdebridtest',
                             ydlib_sources,
                             include_directories: inc,
+                            dependencies: xmlrpccd_dep,
                             d_args : '-unittest',
                             install : false)
 
