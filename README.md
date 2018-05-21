@@ -1,4 +1,4 @@
-# YourDebrid
+# YourDebrid [![travis](https://travis-ci.org/FFY00/yourdebrid.svg?branch=master)](https://travis-ci.org/FFY00/yourdebrid)
 
 YourDebrid is a fully open-source debrid service written in [D-lang](https://dlang.org/).
 
