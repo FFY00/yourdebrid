@@ -3,7 +3,7 @@ language: d
 d:
   - dmd
   - ldc
-  - gdc
+  #- gdc
 python:
   - "3.6"
 
@@ -14,7 +14,7 @@ matrix:
     - os: osx
   allow_failures:
     - os: osx
-    - compiler: gdc
+    #- compiler: gdc
 
 install:
   - export PATH="`pwd`/build:${PATH}"
