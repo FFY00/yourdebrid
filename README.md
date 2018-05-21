@@ -1,6 +1,6 @@
 # YourDebrid
 
-YourDebrid is a fully open-source debrid service written in [D](https://dlang.org/).
+YourDebrid is a fully open-source debrid service written in [D-lang](https://dlang.org/).
 
 
 ## Build Instructions

@@ -20,5 +20,8 @@
     ],
     "libs": [
         "curl"
-    ]
+    ],
+    "dependencies": {
+        "xmlrpcc-d": "0.2.1"
+    }
 }
