@@ -6,15 +6,9 @@
 module test.host;
 
 import std.stdio;
-import yourdebrid.external.hosts.host, yourdebrid.util.config;
-import yourdebrid.external.hosts.openload, yourdebrid.external.hosts.streamango, yourdebrid.external.hosts.vidlox;
+import yourdebrid.connection.hosts.openload;
+//import yourdebrid.connection.hosts.streamango;
+//import yourdebrid.connection.hosts.vidlox;
+//import yourdebrid.connection.hosts.thevideo;
 
-void main()
-{
-    Host host;
-    auto config = new ConfigManager();
-    
-    host = new Openload(config);
-    host = new Streamango(config);
-    host = new Vidlox(config);
-}
+void main() {}

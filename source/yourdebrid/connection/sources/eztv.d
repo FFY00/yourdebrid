@@ -3,13 +3,15 @@
  * License: AGPLv3 https://www.gnu.org/licenses/agpl-3.0.txt
  */
 
-module yourdebrid.external.sources.eztv;
+module yourdebrid.connection.sources.eztv;
 
-import yourdebrid.external.sources.source;
-import yourdebrid.util.util;
+import yourdebrid.model.source;
+
+import core.thread : Thread;
 import std.net.curl, std.json, std.string, std.uni;
 import std.container : DList;
 import std.algorithm : canFind;
+import std.datetime : SysTime, Clock, dur;
 
 class EztvSource : Source {
     
@@ -20,7 +22,6 @@ class EztvSource : Source {
     unittest
     {
         import std.stdio;
-        import std.datetime : SysTime, Clock, dur;
 
         Source source = new EztvSource;
         SysTime stattime;
@@ -84,14 +85,14 @@ class EztvSource : Source {
 
         while (results.length < max) {
             url = constructUrl(imdb_id, limit, page);
-            delay(100);
+            Thread.sleep(dur!"msecs"(1000));
             try {
                 j = getData(url);
             } catch (HTTPStatusException e) {
                 if(e.status == 429){
-                    delay(2000); /** delay and try again.
-                                        there are no API limitations afiak
-                                        but it's still good to have a delay */
+                    Thread.sleep(dur!"msecs"(2000)); /** delay and try again.
+                                                    there are no API limitations afiak
+                                                    but it's still good to have a delay */
                     try
                         j = parseJSON(get(url));
                     catch (HTTPStatusException e)

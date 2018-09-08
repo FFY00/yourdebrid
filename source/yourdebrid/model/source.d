@@ -3,7 +3,7 @@
  * License: AGPLv3 https://www.gnu.org/licenses/agpl-3.0.txt
  */
 
-module yourdebrid.external.sources.source;
+module yourdebrid.model.source;
 
 import std.container : DList;
 

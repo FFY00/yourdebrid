@@ -5,43 +5,38 @@
 
 module yourdebrid.util.config;
 
-import std.path, std.file, std.json;
+import std.path, std.file, std.json, std.experimental.logger;
 
 /// Config manager class
 class ConfigManager {
     private string path = "";
-    private JSONValue config;
+    private JSONValue authConfig;
+    private JSONValue providerConfig;
     private string[] paths;
 
-    /// Finds the config file
     this()
     {
+        authConfig = findConfig("auth");
+        providerConfig = findConfig("providers");
+    }
+
+    /// Finds the config file
+    private JSONValue findConfig(string file)
+    {
+        paths = [getcwd() ~ "/" ~ file ~ ".json"];
         version(Posix)
         {
-            paths = [
-                        getcwd() ~ "/yourdebrid.json",
-                        "/etc/yourdebrid.json",
-                        "/etc/yourdebrid/yourdebrid.json",
-                        "/usr/share/yourdebrid/yourdebrid.json",
-                        "/usr/local/share/yourdebrid/yourdebrid.json",
-                        expandTilde("~/.config/yourdebrid/yourdebrid.json"),
-                        expandTilde("~/.local/share/yourdebrid/yourdebrid.json"),
-                        expandTilde("~/yourdebrid/yourdebrid.json")
-                    ];
-        } // TODO: Add windows support
+            paths ~= [  expandTilde("~/.config/yourdebrid/" ~ file ~ ".json"),
+                        "/etc/yourdebrid/" ~ file ~ ".json"];
+        } // TODO: Add windows specific paths
 
-        version(unittest)
-        {
-            paths ~= getcwd() ~ "/../assets/yourdebrid.json";
-        }
-
-        findFile: foreach(file; paths)
+        findFile: foreach(entry; paths)
         {
             try
             {
-                if(file.isFile())
+                if(entry.isFile())
                 {
-                    path = file;
+                    path = entry;
                     break findFile;
                 }
             } catch (Exception e) {}
@@ -49,18 +44,27 @@ class ConfigManager {
 
         if(path == "")
         {
-            import std.c.stdlib : exit;
-            import std.stdio : writeln;
-            writeln("No config file found!");
-            exit(0);
+            fatalf("Config file '%s.json' not found!", file);
         }
 
-        config = parseJSON(readText(path));
+        return parseJSON(readText(path));
     }
 
-    public JSONValue getData()
+    public JSONValue getLoginData(string name)
     {
-        return config;
+        if(name in authConfig)
+            return authConfig[name];
+        
+        warningf("Couldn't find login information for '%s'", name);
+        return parseJSON("");
     }
 
+    public JSONValue getProviderData(string name)
+    {
+        if(name in providerConfig)
+            return providerConfig[name];
+        
+        warningf("Couldn't find provider information for '%s'", name);
+        return parseJSON("");
+    }
 }

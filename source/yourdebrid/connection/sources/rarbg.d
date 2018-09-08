@@ -3,10 +3,11 @@
  * License: AGPLv3 https://www.gnu.org/licenses/agpl-3.0.txt
  */
 
-module yourdebrid.external.sources.rarbg;
+module yourdebrid.connection.sources.rarbg;
 
-import yourdebrid.external.sources.source;
-import yourdebrid.util.util;
+import yourdebrid.model.source;
+
+import core.thread : Thread;
 import std.net.curl, std.json, std.uni, std.format;
 import std.container : DList;
 import std.algorithm : canFind;
@@ -105,14 +106,14 @@ class RarbgSource : Source {
 
         while (results.length < max) {
             url = constructUrl(imdb_id, limit, page, ep);
-            delay(100);
+            Thread.sleep(dur!"msecs"(1000));
             try {
                 j = getData(url);
             } catch (HTTPStatusException e) {
                 if(e.status == 429){
-                    delay(2000); /** the RARBG API supposedly has a limit of 1req/2s,
-                                        this doesn't seem to be happenning right now
-                                        but it could enabled in the future */
+                    Thread.sleep(dur!"msecs"(2000));  /** the RARBG API supposedly has a limit of 1req/2s,
+                                                        this doesn't seem to be happenning right now
+                                                        but it could enabled in the future */
                     try
                         j = parseJSON(get(url));
                     catch (HTTPStatusException e)
@@ -166,14 +167,14 @@ class RarbgSource : Source {
 
         while (results.length < max) {
             url = constructUrl(imdb_id, limit, page);
-            delay(100);
+            Thread.sleep(dur!"msecs"(1000));
             try {
                 j = getData(url);
             } catch (HTTPStatusException e) {
                 if(e.status == 429){
-                    delay(2000); /** the RARBG API supposedly has a limit of 1req/2s,
-                                        this doesn't seem to be happenning right now
-                                        but it could enabled in the future */
+                    Thread.sleep(dur!"msecs"(2000));  /** the RARBG API supposedly has a limit of 1req/2s,
+                                                        this doesn't seem to be happenning right now
+                                                        but it could enabled in the future */
                     try
                         j = parseJSON(get(url));
                     catch (HTTPStatusException e)

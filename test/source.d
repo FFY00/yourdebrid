@@ -5,12 +5,7 @@
 
 module test.source;
 
-import yourdebrid.external.sources.source, yourdebrid.external.sources.eztv, yourdebrid.external.sources.rarbg;
+import yourdebrid.model.source, yourdebrid.connection.sources.eztv, yourdebrid.connection.sources.rarbg;
 import source_imp;
 
-void main()
-{
-    Source source;
-    source = new EztvSource;
-    source = new RarbgSource;
-}
+void main() {}
