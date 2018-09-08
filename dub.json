@@ -1,6 +1,8 @@
 {
     "name": "yourdebrid",
-    "authors": "Filipe Laíns",
+    "authors": [
+        "Filipe Laíns"
+    ],
     "copyright": "Copyright © 2018, Filipe Laíns",
     "license": "AGPLv3",
     "sourceFiles": [
@@ -16,9 +18,5 @@
         "source/yourdebrid/connection/hosts/openload.d",
         "source/yourdebrid/connection/hosts/vidlox.d"
     ],
-    "libs": "curl",
-    "dependencies": {
-        "xmlrpcc-d": "0.2.1"
-    },
     "description": "YourDebrid is a fully open-source debrid service written in D-lang"
 }

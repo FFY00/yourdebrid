@@ -17,8 +17,10 @@ class Thevideo : Host {
         import std.stdio, std.path, std.file;
         import std.datetime : SysTime, Clock, dur;
 
+        auto name = "thevideo";
+
         auto config = new ConfigManager();
-        Host host = new Thevideo(config);
+        Host host = new Thevideo(name, config);
 
         SysTime stattime = Clock.currTime();
 
@@ -31,24 +33,28 @@ class Thevideo : Host {
         writeln("\nTHEVIDEO upload() ==> ", Clock.currTime() - stattime, "\n");
     }
 
-    this()
+    this(string name)
     {
-        this(new ConfigManager);
+        this(name, new ConfigManager);
     }
 
-    this(ConfigManager config)
+    this(string name, ConfigManager config)
     {
-        base_url = "https://api.fruithosted.net/file";
-        
-        auto data = config.getData();
-        if("thevideo" in data)
-        {
-            if("login" in data["thevideo"])
-                login = data["thevideo"]["login"].str;
+        this.name = name;
 
-            if("key" in data["thevideo"])
-                key = data["thevideo"]["key"].str;
+        // Get login data
+        auto data = config.getLoginData(name);
+        if ("login" in data && "key" in data)
+        {
+            login = data["login"].str;
+            key = data["key"].str;
         }
+
+        // Get api key
+        data = config.getProviderData(name);
+        assert(data["driver"].str = "thevideo");
+        if ("api" in data)
+            api = data["api"].str;
     }
 
     override public string upload(string file)

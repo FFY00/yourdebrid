@@ -16,9 +16,8 @@ endforeach
 
 dlang = import('dlang')
 dlang.generate_dub_file(meson.project_name().to_lower(), meson.source_root(),
-                        authors: 'Filipe Laíns',
+                        authors: ['Filipe Laíns'],
                         description: 'YourDebrid is a fully open-source debrid service written in D-lang',
                         copyright: 'Copyright © 2018, Filipe Laíns',
                         license: 'AGPLv3',
-                        sourceFiles: dub_sources,
-                        libs: 'curl')
+                        sourceFiles: dub_sources)
