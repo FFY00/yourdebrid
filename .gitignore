@@ -1,4 +1,12 @@
+# Build
 build/
+build2/
 builddir/
+
+# Dub
+.dub/
 libyourdebrid.a
 dub.selections.json
+
+# VS Code
+.vscode/

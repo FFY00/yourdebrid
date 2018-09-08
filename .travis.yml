@@ -22,7 +22,7 @@ matrix:
     - os: osx
   allow_failures:
     - os: osx
-    - env: DC=gdc
+    - d: gdc
 
 # Install steps
 install:
