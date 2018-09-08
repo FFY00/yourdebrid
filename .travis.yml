@@ -1,38 +1,46 @@
 sudo: false
 language: d
+
+# Compilers
 d:
   - dmd
   - ldc
-  #- gdc
+  - gdc
+
+# Python version
 python:
   - "3.6"
 
+# Skip lfs files
+git:
+  lfs_skip_smudge: true
+
+# OS Matrix
 matrix:
   include:
     - os: linux
-      dist: xenial
     - os: osx
   allow_failures:
     - os: osx
-    #- compiler: gdc
+    - env: DC=gdc
 
+# Install steps
 install:
   - export PATH="`pwd`/build:${PATH}"
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update && brew install ninja && brew upgrade python3; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip && unzip -q ninja-linux.zip -d build; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pyenv global system 3.6; fi
-  - pip3 install https://github.com/FFY00/meson/zipball/master
+  - pip3 install https://github.com/mesonbuild/meson/zipball/master
 
+# Test steps
 script:
-  # Fetch dependencies
-  - dub fetch xmlrpcc-d
-  - dub build xmlrpcc-d --compiler=${DC}
   # Build with ninja
   - meson builddir
   - ninja -C builddir
   # Build and run tests with dub
-  - dub build --compiler=${DC}
+  - dub build --compiler=$DC
   - if [[ "$DC" == "dmd" ]]; then dub test -b unittest-cov --compiler=${DC}; fi #ldc currently fails
 
+# Upload codecov results
 after_success:
   - bash <(curl -s https://codecov.io/bash)
