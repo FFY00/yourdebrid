@@ -39,8 +39,8 @@ script:
   - ninja -C builddir
   # Build and run tests with dub
   - dub build --compiler=$DC
-  - if [[ "$DC" == "dmd" ]]; then dub test -b unittest-cov --compiler=${DC}; fi #ldc currently fails
+#  - if [[ "$DC" == "dmd" ]]; then dub test -b unittest-cov --compiler=${DC}; fi #ldc currently fails
 
 # Upload codecov results
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+#after_success:
+#  - bash <(curl -s https://codecov.io/bash)
